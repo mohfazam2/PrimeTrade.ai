@@ -24,7 +24,7 @@ AuthRouter.post("/signup", async (req, res) => {
   }
 
   try {
-    const { name, email, password } = parsedData.data;
+    const { name, email, password, role } = parsedData.data;
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const User = await prismaClient.user.create({
@@ -32,8 +32,15 @@ AuthRouter.post("/signup", async (req, res) => {
         name: name,
         email: email,
         password: hashedPassword,
+        role: role || "USER"
       },
     });
+
+    if(User.role !== "ADMIN"){
+        return res.status(403).json({
+            Message: "Access Denied"
+        });
+    }
 
     return res.status(201).json({
       Message: "user Created Successfully",
