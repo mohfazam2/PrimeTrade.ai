@@ -36,12 +36,6 @@ AuthRouter.post("/signup", async (req, res) => {
       },
     });
 
-    if(User.role !== "ADMIN"){
-        return res.status(403).json({
-            Message: "Access Denied"
-        });
-    }
-
     return res.status(201).json({
       Message: "user Created Successfully",
     });
