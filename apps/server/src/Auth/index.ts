@@ -1,6 +1,8 @@
 import express, { Router } from "express";
-import { createUserSchema } from "../types/index.js";
+import { createUserSchema, loginUserSchema } from "../types/index.js";
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
+
 
 const prismaClient = new PrismaClient();
 
@@ -24,11 +26,14 @@ AuthRouter.post("/signup", async (req, res) => {
     }
 
     try{
+        const {name, email, password} = parsedData.data;
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         const User = await prismaClient.user.create({
             data:{
-                name: parsedData.data.name,
-                email: parsedData.data.email,
-                password: parsedData.data.password
+                name: name,
+                email: email,
+                password: hashedPassword
             }
         });
 
@@ -43,4 +48,41 @@ AuthRouter.post("/signup", async (req, res) => {
     }
 
 
+});
+
+AuthRouter.post("/login", async (req, res) => {
+    const parsedData = loginUserSchema.safeParse(req.body);
+
+   try{
+     if(!parsedData.success){
+        return res.status(411).json({
+            Message: "Invalid Input",
+            error: parsedData.error.format(),
+        });
+    }
+
+    const {email, password} = parsedData.data;
+
+   const user = prismaClient.user.findFirst({
+    where:{
+        email: email
+    }
+
+   });
+
+   if(!user){
+    return res.status(404).json({
+        Message: "User Not Found"
+    });
+   }
+
+   
+
+
+   } catch(error){
+    return res.status(500).json({
+        Message: "Something went wrong",
+        error: String(error)
+    })
+   }
 });
