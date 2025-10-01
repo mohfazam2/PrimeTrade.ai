@@ -2,7 +2,12 @@ import express, { Router } from "express";
 import { createUserSchema, loginUserSchema } from "../types/index.js";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
+dotenv.config();
+
+const JWT_SECRET = process.env.JWT_SECRET;
 const prismaClient = new PrismaClient();
 
 export const AuthRouter: Router = express.Router();
@@ -86,8 +91,11 @@ AuthRouter.post("/login", async (req, res) => {
       });
     }
 
+    const token = jwt.sign({ email }, JWT_SECRET as string, {expiresIn: "12h"});
+
     return res.status(200).json({
       Message: "Login Successful",
+      JWT_token: token
     });
   } catch (error) {
     return res.status(500).json({
