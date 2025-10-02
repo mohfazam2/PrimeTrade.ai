@@ -91,11 +91,18 @@ AuthRouter.post("/login", async (req, res) => {
       });
     }
 
-    const token = jwt.sign({ email }, JWT_SECRET as string, {expiresIn: "12h"});
+    const token = jwt.sign({ 
+      id: user.id,
+      email: user.email,
+      role: user.role
+     }, JWT_SECRET as string, {expiresIn: "12h"});
 
     return res.status(200).json({
       Message: "Login Successful",
-      JWT_token: token
+      JWT_token: token,
+      id: user.id,
+      email: user.email,
+      role: user.role
     });
   } catch (error) {
     return res.status(500).json({
