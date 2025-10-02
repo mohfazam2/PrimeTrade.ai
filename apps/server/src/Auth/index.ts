@@ -71,7 +71,7 @@ AuthRouter.post("/login", async (req, res) => {
       });
     }
 
-    const { email, password } = parsedData.data;
+    const { email, password, role } = parsedData.data;
 
     const user = await prismaClient.user.findFirst({
       where: {
@@ -105,10 +105,16 @@ AuthRouter.post("/login", async (req, res) => {
       role: user.role
      }, JWT_SECRET as string, {expiresIn: "12h"});
 
-    return res.status(200).json({
+    if(role === "ADMIN"){
+      return res.status(201).json({
+        Message: "Admin Login Successfull"
+      });
+    } else{
+      return res.status(200).json({
       Message: "Login Successful",
       JWT_token: token,
     });
+    }
   } catch (error) {
     return res.status(500).json({
       Message: "Something went wrong",
