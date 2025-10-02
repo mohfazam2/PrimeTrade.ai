@@ -1,5 +1,5 @@
 import express, { Router } from "express"
-import { productSchema } from "../types/index.js";
+import { productSchema, updateProductSchema } from "../types/index.js";
 import { authMiddleware, roleMiddleware } from "../middleware/index.js";
 import { PrismaClient } from "@prisma/client";
 
@@ -65,4 +65,42 @@ productRouter.post("/add", authMiddleware, roleMiddleware,async (req, res) => {
         });
     }
    
+});
+
+productRouter.put("/update", authMiddleware, roleMiddleware, async (req, res) => {
+    const parsedData = updateProductSchema.safeParse(req.body);
+
+    if(!parsedData.success){
+        return res.status(403).json({
+            Message: "Something Went Wrong"
+        });
+    }
+
+    const {id, name, description, price} = parsedData.data
+    try{
+        const response = await prismaClient.product.update({
+        where: {
+            id: id
+        }, 
+        data: {
+            name,
+            description: description || null,
+            price
+        } 
+    });
+
+    return res.status(200).json({
+        Message: "Product Updated Successfully",
+        
+        Old_Product: parsedData.data,
+        New_Product: response
+
+        
+    })
+    } catch(error){
+        return res.status(500).json({
+            Message: "Something Went Wrong",
+            Error: error
+        })
+    }
 });

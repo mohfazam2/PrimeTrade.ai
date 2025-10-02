@@ -17,3 +17,10 @@ export const productSchema = z.object({
     description: z.string().min(3).max(250).optional(),
     price: z.number().min(0).max(999999),
 });
+
+export const updateProductSchema = z.object({
+    id: z.number().int().positive(),
+    name: z.string().min(3).max(100),
+    description: z.string().min(3).max(250).optional(),
+    price: z.number().min(0).max(999999),
+});
