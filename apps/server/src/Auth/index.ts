@@ -100,9 +100,6 @@ AuthRouter.post("/login", async (req, res) => {
     return res.status(200).json({
       Message: "Login Successful",
       JWT_token: token,
-      id: user.id,
-      email: user.email,
-      role: user.role
     });
   } catch (error) {
     return res.status(500).json({
