@@ -10,7 +10,6 @@ export const createUserSchema = z.object({
 export const loginUserSchema = z.object({
     email: z.string().min(3).max(50).email({ message: "Invalid email" }),
     password: z.string().min(3).max(50),
-    role: z.enum(["USER", "ADMIN"]).optional(),
 });
 
 export const productSchema = z.object({
