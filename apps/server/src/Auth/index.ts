@@ -41,9 +41,17 @@ AuthRouter.post("/signup", async (req, res) => {
       },
     });
 
-    return res.status(201).json({
-      Message: "user Created Successfully",
-    });
+    if(User.role === "ADMIN"){
+      return res.status(201).json({
+        Message: "Admin Account Created"
+      });
+    } else{
+      return res.status(201).json({
+        Message: "user Created Successfully",
+      });
+
+    }
+
   } catch (error) {
     return res.status(500).json({
       Message: "Something went wrong",
