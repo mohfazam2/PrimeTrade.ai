@@ -107,7 +107,8 @@ AuthRouter.post("/login", async (req, res) => {
 
     if(role === "ADMIN"){
       return res.status(201).json({
-        Message: "Admin Login Successfull"
+        Message: "Admin Login Successfull",
+        JWT_token: token,
       });
     } else{
       return res.status(200).json({
