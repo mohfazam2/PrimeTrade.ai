@@ -13,6 +13,22 @@ productRouter.get("/health", (req, res) => {
     });
 });
 
+productRouter.get("/all", async (req, res) => {
+    try{
+        const products = prismaClient.product.findMany();
+
+        return res.status(200).json({
+            Message: "All products fetched",
+            Products: products
+        });
+    } catch(error){
+        return res.status(500).json({
+            Message: "Something went wrong",
+            error: error
+        });
+    }
+})
+
 productRouter.post("/add", authMiddleware, roleMiddleware,async (req, res) => {
    const parsedData = productSchema.safeParse(req.body);
    
