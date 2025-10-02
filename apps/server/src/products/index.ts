@@ -91,12 +91,8 @@ productRouter.put("/update", authMiddleware, roleMiddleware, async (req, res) =>
 
     return res.status(200).json({
         Message: "Product Updated Successfully",
-        
-        Old_Product: parsedData.data,
-        New_Product: response
-
-        
-    })
+        Updated_Product: response 
+    });
     } catch(error){
         return res.status(500).json({
             Message: "Something Went Wrong",
