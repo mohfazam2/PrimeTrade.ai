@@ -15,7 +15,11 @@ productRouter.get("/health", (req, res) => {
 
 productRouter.get("/all", async (req, res) => {
     try{
-        const products = prismaClient.product.findMany();
+        const products = prismaClient.product.findMany({
+            orderBy:{
+                id: "asc"
+            }
+        });
 
         return res.status(200).json({
             Message: "All products fetched",
