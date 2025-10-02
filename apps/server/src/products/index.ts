@@ -100,3 +100,42 @@ productRouter.put("/update", authMiddleware, roleMiddleware, async (req, res) =>
         })
     }
 });
+
+productRouter.delete("/delete", authMiddleware, roleMiddleware, async (req, res) => {
+    
+    const { id } = req.body;
+
+    if (!id || typeof id !== "number" || id <= 0) {
+        return res.status(400).json({
+            Message: "Invalid product id",
+        });
+    }
+
+    try {
+        
+        const existingProduct = await prismaClient.product.findUnique({
+            where: { id },
+        });
+
+        if (!existingProduct) {
+            return res.status(404).json({
+                Message: "Product not found",
+            });
+        }
+
+        
+        await prismaClient.product.delete({
+            where: { id },
+        });
+
+        return res.status(200).json({
+            Message: "Product deleted successfully",
+            Deleted_Product: existingProduct, 
+        });
+    } catch (error) {
+        return res.status(500).json({
+            Message: "Something went wrong",
+            Error: String(error),
+        });
+    }
+});
