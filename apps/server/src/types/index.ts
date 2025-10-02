@@ -11,3 +11,9 @@ export const loginUserSchema = z.object({
     email: z.string().min(3).max(50).email({ message: "Invalid email" }),
     password: z.string().min(3).max(50)
 });
+
+export const productSchema = z.object({
+    name: z.string().min(3).max(100),
+    description: z.string().min(3).max(250).optional(),
+    price: z.number().min(0).max(999999),
+});
