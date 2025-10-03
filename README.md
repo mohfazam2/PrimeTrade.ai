@@ -36,13 +36,14 @@ This project was built as part of the **Backend Developer (Intern) Assignment**.
 
 ## 📂 Project Structure
 
-src
-├── Routes        # API route handlers
-├── Middleware    # Auth & validation middlewares
-├── Schemas       # Zod validation schemas
-├── Controllers   # Core business logic
-├── prisma/       # Database schema & migrations
-└── index.ts      # Entry point
+src/
+├─ Routes/        # API route handlers
+├─ Middleware/    # Auth & validation middlewares
+├─ Schemas/       # Zod validation schemas
+├─ Controllers/   # Core business logic
+├─ prisma/        # Database schema & migrations
+└─ index.ts       # Entry point
+
 
 ## ⚙️ Setup & Installation
 
