@@ -2,6 +2,10 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import AddProductModal from "../../Components/AddProduct";
+import UpdateProductModal from "../../Components/UpdateProduct";
+import DeleteProductModal from "../../Components/DeleteProduct";
 
 interface Product {
   id: number;
@@ -14,32 +18,55 @@ interface Product {
 }
 
 export default function Dashboard() {
+  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get("https://prime-trade-ai-server.vercel.app/api/v1/products/all");
+      setProducts(response.data.Products);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+
+    // Redirect to login if no token
+    if (!token) {
+      router.push("/Login");
+      return;
+    }
+
     const adminFlag = localStorage.getItem("isAdmin") === "true";
     setIsAdmin(adminFlag);
-
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get("https://prime-trade-ai-server.vercel.app/api/v1/products/all");
-        setProducts(response.data.Products);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
     fetchProducts();
-  }, []);
+  }, [router]);
 
   return (
     <div className="min-h-screen bg-black p-8">
       <h1 className="text-3xl text-white font-bold mb-6">Products Dashboard</h1>
 
+      {isAdmin && (
+        <button
+          className="mb-6 bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg shadow-lg"
+          onClick={() => setShowAddModal(true)}
+        >
+          Add Product
+        </button>
+      )}
+
       {!isAdmin && (
-        <button className="mb-6 bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg shadow-lg">
+        <button
+          className="mb-6 bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg shadow-lg"
+          onClick={() => router.push("/Login")}
+        >
           Sign in as admin
         </button>
       )}
@@ -63,13 +90,22 @@ export default function Dashboard() {
 
             {isAdmin && (
               <div className="flex gap-2 mt-auto">
-                <button className="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded-lg">
-                  Add
-                </button>
-                <button className="flex-1 bg-yellow-600 hover:bg-yellow-700 text-white font-medium py-2 rounded-lg">
+                <button
+                  onClick={() => {
+                    setSelectedProduct(product);
+                    setShowUpdateModal(true);
+                  }}
+                  className="flex-1 bg-yellow-600 hover:bg-yellow-700 text-white font-medium py-2 rounded-lg"
+                >
                   Update
                 </button>
-                <button className="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 rounded-lg">
+                <button
+                  onClick={() => {
+                    setSelectedProduct(product);
+                    setShowDeleteModal(true);
+                  }}
+                  className="flex-1 bg-red-600 hover:bg-red-700 text-white font-medium py-2 rounded-lg"
+                >
                   Delete
                 </button>
               </div>
@@ -77,6 +113,35 @@ export default function Dashboard() {
           </div>
         ))}
       </div>
+
+      {showAddModal && (
+        <AddProductModal
+          onClose={() => setShowAddModal(false)}
+          onProductAdded={fetchProducts}
+        />
+      )}
+
+      {showUpdateModal && selectedProduct && (
+        <UpdateProductModal
+          product={selectedProduct}
+          onClose={() => {
+            setShowUpdateModal(false);
+            setSelectedProduct(null);
+          }}
+          onProductUpdated={fetchProducts}
+        />
+      )}
+
+      {showDeleteModal && selectedProduct && (
+        <DeleteProductModal
+          product={selectedProduct}
+          onClose={() => {
+            setShowDeleteModal(false);
+            setSelectedProduct(null);
+          }}
+          onProductDeleted={fetchProducts}
+        />
+      )}
     </div>
   );
 }

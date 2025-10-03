@@ -30,28 +30,32 @@ AuthRouter.post("/signup", async (req, res) => {
 
   try {
     const { name, email, password, role } = parsedData.data;
+
+
+    const existingUser = await prismaClient.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser) {
+      return res.status(409).json({
+        Message: "Email is already registered",
+      });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const User = await prismaClient.user.create({
       data: {
-        name: name,
-        email: email,
+        name,
+        email,
         password: hashedPassword,
-        role: role || "USER"
+        role: role || "USER",
       },
     });
 
-    if(User.role === "ADMIN"){
-      return res.status(201).json({
-        Message: "Admin Account Created"
-      });
-    } else{
-      return res.status(201).json({
-        Message: "user Created Successfully",
-      });
-
-    }
-
+    return res.status(201).json({
+      Message: User.role === "ADMIN" ? "Admin Account Created" : "User Created Successfully",
+    });
   } catch (error) {
     return res.status(500).json({
       Message: "Something went wrong",
@@ -59,6 +63,7 @@ AuthRouter.post("/signup", async (req, res) => {
     });
   }
 });
+
 
 AuthRouter.post("/login", async (req, res) => {
   const parsedData = loginUserSchema.safeParse(req.body);
