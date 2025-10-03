@@ -34,8 +34,6 @@ This project was built as part of the **Backend Developer (Intern) Assignment**.
 - **Validation:** Zod
 - **Hosting:** Vercel (Serverless)
 
----
-
 ## 📂 Project Structure
 
 /src
@@ -45,11 +43,6 @@ This project was built as part of the **Backend Developer (Intern) Assignment**.
 ┣ /Controllers # Core business logic
 ┣ prisma/ # Database schema & migrations
 ┗ index.ts # Entry point
-
-yaml
-Copy code
-
----
 
 ## ⚙️ Setup & Installation
 
