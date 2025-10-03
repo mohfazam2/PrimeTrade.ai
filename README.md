@@ -39,113 +39,120 @@ This project was built as part of the **Backend Developer (Intern) Assignment**.
 ```src/
 ├─ Routes/        # API route handlers
 ├─ Middleware/    # Auth & validation middlewares
-├─ Schemas/       # Zod validation schemas
-├─ Controllers/   # Core business logic
+├─ types/       # Zod validation schemas
 ├─ prisma/        # Database schema & migrations
 └─ index.ts       # Entry point
 ```
 
 
-## ⚙️ Setup & Installation
+## ⚙ Setup & Installation
 
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/your-username/prime-trade-ai.git
 cd prime-trade-ai
-2. Install Dependencies
-bash
-Copy code
-npm install
-3. Setup Environment Variables
-Create a .env file in the root:
+````
 
-env
-Copy code
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Setup Environment Variables
+
+Create a `.env` file in the root:
+
+```env
 DATABASE_URL=postgresql://user:password@localhost:5432/primetrade
 JWT_SECRET=your_jwt_secret
-4. Run Database Migrations
-bash
-Copy code
-npx prisma migrate dev
-5. Start the Server
-bash
-Copy code
-npm run dev
-By default the API runs at:
-http://localhost:3000/api/v1
+```
 
-📖 API Documentation
-🟢 Postman Collection
+### 4. Run Database Migrations
+
+```bash
+npx prisma migrate dev
+```
+
+### 5. Start the Server
+
+```bash
+npm run dev
+```
+
+By default, the API runs at:
+
+```
+http://localhost:3000/api/v1
+```
+
+---
+
+## 📖 API Documentation
+
+### 🟢 Postman Collection
+
 All API endpoints are documented in the Postman Collection.
 
-Import the collection file: postman/assignment_collection.json
+* Import the collection file: `postman/assignment_collection.json`
+* Or access via live Postman link: **PrimeTrade.AI Postman Docs**
 
-Or access via live Postman link: PrimeTrade.AI Postman Docs
+---
 
-Example Endpoints
-🔹 Auth
-POST /api/v1/auth/signup → Register new user
+## 🔹 Example Endpoints
 
-POST /api/v1/auth/login → Login and get JWT
+### Auth
 
-🔹 Products
-POST /api/v1/products/add → Add new product (Admin only)
+* `POST /api/v1/auth/signup` → Register new user
+* `POST /api/v1/auth/login` → Login and get JWT
 
-GET /api/v1/products/all → Fetch all products
+### Products
 
-PUT /api/v1/products/:id → Update product (Admin only)
+* `POST /api/v1/products/add` → Add new product (Admin only)
+* `GET /api/v1/products/all` → Fetch all products
+* `PUT /api/v1/products/:id` → Update product (Admin only)
+* `DELETE /api/v1/products/:id` → Delete product (Admin only)
 
-DELETE /api/v1/products/:id → Delete product (Admin only)
+### Health
 
-🔹 Health
-GET /health → Root health check
+* `GET /health` → Root health check
+* `GET /api/v1/health` → API health check
+* `GET /api/v1/auth/health` → Auth module health
+* `GET /api/v1/products/health` → Products module health
 
-GET /api/v1/health → API health check
+---
 
-GET /api/v1/auth/health → Auth module health
+## 🔐 Security Practices
 
-GET /api/v1/products/health → Products module health
+* Passwords stored with **bcrypt hashing**
+* JWT expiration (12 hours)
+* Input sanitization & validation using **Zod**
+* Role-based access middleware
 
-🔐 Security Practices
-Passwords stored with bcrypt hashing
+---
 
-JWT expiration (12 hours)
+## 📈 Scalability Notes
 
-Input sanitization & validation using Zod
+* Modular architecture for easily adding new modules
+* Database handled with **Prisma ORM** → supports Postgres, MySQL, MongoDB
+* JWT auth extendable with refresh tokens
 
-Role-based access middleware
+**For production scale:**
 
-📈 Scalability Note
-Modular architecture for adding new modules easily
+* Caching layer (**Redis**) for product fetches
+* Logging (**Winston / ELK stack**)
+* Dockerized deployment
+* Microservices split: `auth`, `products`, `gateway`
 
-Database handled with Prisma ORM → allows migration to MySQL, Postgres, or MongoDB
+---
 
-JWT auth can be extended with refresh tokens
+## 🎯 Evaluation Checklist
 
-For production scale:
-
-Caching layer (Redis) for product fetches
-
-Logging (Winston / ELK stack)
-
-Dockerized deployment
-
-Microservices split: auth, products, gateway
-
-🎯 Evaluation Checklist
- User registration & login with JWT ✅
-
- Role-based access ✅
-
- CRUD APIs for Products ✅
-
- API versioning & validation ✅
-
- API documentation (Postman) ✅
-
- Database schema (Prisma + Postgres) ✅
-
- Frontend (React Dashboard) ✅
-
- Scalability note ✅
-
+* ✅ User registration & login with JWT
+* ✅ Role-based access
+* ✅ CRUD APIs for Products
+* ✅ API versioning & validation
+* ✅ API documentation (Postman)
+* ✅ Database schema (Prisma + Postgres)
+* ✅ Frontend (React Dashboard)
+* ✅ Scalability notes
