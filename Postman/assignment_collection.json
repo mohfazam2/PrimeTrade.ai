@@ -1,0 +1,247 @@
+{
+	"info": {
+		"_postman_id": "4f473fa7-5b4e-46e7-9650-831eda83abe3",
+		"name": "PrimeTrade.AI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38785324",
+		"_collection_link": "https://winter-equinox-483850.postman.co/workspace/0faee944-bce4-4dc9-9914-b185485f4b11/collection/38785324-4f473fa7-5b4e-46e7-9650-831eda83abe3?action=share&source=collection_link&creator=38785324"
+	},
+	"item": [
+		{
+			"name": "Health Routes",
+			"item": [
+				{
+					"name": "Root health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "prime-trade-ai-server.vercel.app/health",
+							"host": [
+								"prime-trade-ai-server",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Main Router Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "prime-trade-ai-server.vercel.app/api/v1/health",
+							"host": [
+								"prime-trade-ai-server",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"api",
+								"v1",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Auth health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "prime-trade-ai-server.vercel.app/api/v1/auth/health",
+							"host": [
+								"prime-trade-ai-server",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products - health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "prime-trade-ai-server.vercel.app/api/v1/products/health",
+							"host": [
+								"prime-trade-ai-server",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"health"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"email\": \"test14@email.com\",\r\n    \"password\": \"test14@\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "prime-trade-ai-server.vercel.app/api/v1/auth/login",
+							"host": [
+								"prime-trade-ai-server",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"test10\",\r\n    \"email\": \"test10@email.com\",\r\n    \"password\": \"test10@\",\r\n    \"role\": \"USER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "prime-trade-ai-server.vercel.app/api/v1/auth/signup",
+							"host": [
+								"prime-trade-ai-server",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Product Add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsImVtYWlsIjoidGVzdDE0QGVtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1OTQ0MjE2NCwiZXhwIjoxNzU5NDg1MzY0fQ.lIZI63ktH46he98UXqBuIleupi-mrQIBWpKuSm7dex0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"iphone 15 pro\",\r\n    \"description\":\"just another iphone with new colors and new marketing, and a new extension to its name\",\r\n    \"price\":1099\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "prime-trade-ai-server.vercel.app/api/v1/products/add",
+							"host": [
+								"prime-trade-ai-server",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "prime-trade-ai-server.vercel.app/api/v1/products/all",
+							"host": [
+								"prime-trade-ai-server",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
