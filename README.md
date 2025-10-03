@@ -14,7 +14,8 @@ URL https://prime-trade-ai-server.vercel.app/
 ```bash
 URL https://prime-trade-ai-server.vercel.app/
 ````
----
+--- 
+
 ## 📌 Features
 
 ### ✅ Authentication & Authorization
