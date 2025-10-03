@@ -5,6 +5,16 @@ This project was built as part of the **Backend Developer (Intern) Assignment**.
 
 ---
 
+## 1. Frontend
+```URL
+URL https://prime-trade-ai-server.vercel.app/
+```
+
+## 2. Backend
+```bash
+URL https://prime-trade-ai-server.vercel.app/
+````
+---
 ## 📌 Features
 
 ### ✅ Authentication & Authorization
