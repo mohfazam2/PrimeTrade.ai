@@ -17,7 +17,8 @@ export default function LoginPage() {
       const response = await axios.post("https://prime-trade-ai-server.vercel.app/api/v1/auth/login", formData);
       
      
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', response.data.JWT_token);
+      localStorage.setItem('isAdmin', response.data.isAdmin);
       
       console.log('Login submitted:', formData);
       console.log('Response:', response.data);
