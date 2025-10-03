@@ -79,9 +79,7 @@ AuthRouter.post("/login", async (req, res) => {
     const { email, password } = parsedData.data;
 
     const user = await prismaClient.user.findFirst({
-      where: {
-        email: email,
-      },
+      where: { email },
     });
 
     if (!user) {
@@ -92,36 +90,30 @@ AuthRouter.post("/login", async (req, res) => {
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    if(user.email != email){
-        return res.status(401).json({
-        Message: "Email does not exist",
-      }); 
-    }
-
     if (!isPasswordValid) {
       return res.status(401).json({
         Message: "Incorrect password",
       });
     }
 
-    const token = jwt.sign({ 
-      id: user.id,
-      email: user.email,
-      role: user.role
-     }, JWT_SECRET as string, {expiresIn: "12h"});
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role },
+      JWT_SECRET as string,
+      { expiresIn: "12h" }
+    );
 
-    if(user.role === "ADMIN"){
+    if (user.role === "ADMIN") {
       return res.status(201).json({
-        Message: "Admin Login Successfull",
+        Message: "Admin Login Successful",
         JWT_token: token,
         isAdmin: true,
       });
-    } else{
+    } else {
       return res.status(200).json({
-      Message: "Login Successful",
-      JWT_token: token,
-      isAdmin: false,
-    });
+        Message: "Login Successful",
+        JWT_token: token,
+        isAdmin: false,
+      });
     }
   } catch (error) {
     return res.status(500).json({
@@ -130,3 +122,4 @@ AuthRouter.post("/login", async (req, res) => {
     });
   }
 });
+
