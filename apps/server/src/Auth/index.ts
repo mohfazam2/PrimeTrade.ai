@@ -109,11 +109,13 @@ AuthRouter.post("/login", async (req, res) => {
       return res.status(201).json({
         Message: "Admin Login Successfull",
         JWT_token: token,
+        isAdmin: true,
       });
     } else{
       return res.status(200).json({
       Message: "Login Successful",
       JWT_token: token,
+      isAdmin: false,
     });
     }
   } catch (error) {
