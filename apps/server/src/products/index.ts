@@ -44,13 +44,14 @@ productRouter.post("/add", authMiddleware, roleMiddleware,async (req, res) => {
 }
 
     try{
-        const {name, description, price} = parsedData.data;
+        const {name, description, price, image} = parsedData.data;
 
     const product = await prismaClient.product.create({
         data: {
             name: name!,
             description: description!,
-            price: price!
+            price: price!,
+            image: image!
         }
     });
 
